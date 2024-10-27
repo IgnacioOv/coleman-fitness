@@ -17,4 +17,4 @@ RUN ./gradlew clean build -x test
 EXPOSE 8080
 
 # Comando para correr la aplicación usando el JAR generado
-CMD ["sh", "-c", "java -jar target/*.jar"]
+CMD ["sh", "-c", "java -jar build/libs/*.jar"]
