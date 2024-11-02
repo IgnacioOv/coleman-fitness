@@ -21,7 +21,14 @@ public class Athlete {
     private String lastname;
     private String dni;
     @OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
-    List<Trophy> trophyList;
+    private List<Trophy> trophyList;
+    @OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
+    private List<BodyMeasurement> bodyMeasurementList;
+    @OneToOne(mappedBy = "athlete",cascade = CascadeType.ALL)
+    private Objective objective;
+
+
+
 
 
 }
