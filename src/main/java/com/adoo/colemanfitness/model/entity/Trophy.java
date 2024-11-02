@@ -17,6 +17,4 @@ public abstract class Trophy {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "athlete_id")
     private Athlete athlete;
-
-
 }
