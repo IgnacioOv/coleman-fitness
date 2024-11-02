@@ -27,7 +27,6 @@ public class BodyMeasurementController {
     }
     @GetMapping("/imprimir")
     public String imprimir() {
-        bodyMeasureService.printMessage();  // Llama al servicio que imprime en la consola
-        return "Mensaje impreso servoce!";
+        return bodyMeasureService.printMessage();
     }
 }
