@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,5 +29,9 @@ public class BodyMeasurementController {
     @GetMapping("/imprimir")
     public String imprimir() {
         return bodyMeasureService.printMessage();
+    }
+    @GetMapping("/addMesurment")
+    public ResponseEntity<Object> addMesurment(@RequestBody AddBodyMeasurementRequestDto request){
+        return bodyMeasureService.addMesurment(request);
     }
 }

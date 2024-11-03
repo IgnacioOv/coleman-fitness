@@ -2,7 +2,9 @@ package com.adoo.colemanfitness.service;
 
 import com.adoo.colemanfitness.model.dto.AddBodyMeasurementRequestDto;
 import com.adoo.colemanfitness.model.dto.DefaultResponseDto;
+import com.adoo.colemanfitness.model.entity.Athlete;
 import com.adoo.colemanfitness.model.entity.BodyMeasurement;
+import com.adoo.colemanfitness.repository.AthleteJpaRepository;
 import com.adoo.colemanfitness.repository.BodyMeasureJpaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class BodyMeasureService {
     BodyMeasureJpaRepository bodyMeasureJpaRepository;
+    AthleteJpaRepository athleteJpaRepository;
     public String printMessage() {
         return "wasssaaaaaaaaa";
     }
@@ -24,11 +27,14 @@ public class BodyMeasureService {
             bodyMeasurement.setWeight(request.getWeight());
             bodyMeasurement.setMuscleMass(request.getMuscleMass());
             bodyMeasurement.setHeight(request.getHeight());
-            bodyMeasureJpaRepository.save(bodyMeasurement);
-            DefaultResponseDto response = new DefaultResponseDto();
-            response.setCode(HttpStatus.OK);
-            response.setMessage("Medidas guardadas exitosamente");
-            return new ResponseEntity<>(response,HttpStatus.OK);
+            Athlete athlete = athleteJpaRepository.findById(request.getIdAthlete()).orElseThrow();
+            bodyMeasurement.setAthlete(athlete);
+            //bodyMeasureJpaRepository.save(bodyMeasurement);
+            //DefaultResponseDto response = new DefaultResponseDto();
+            //response.setCode(HttpStatus.OK);
+            //response.setMessage("Medidas guardadas exitosamente");
+            //return new ResponseEntity<>(response,HttpStatus.OK);
+            return new ResponseEntity<>(bodyMeasurement, HttpStatus.OK);
         }
         catch (Exception e){
             DefaultResponseDto response = new DefaultResponseDto();
