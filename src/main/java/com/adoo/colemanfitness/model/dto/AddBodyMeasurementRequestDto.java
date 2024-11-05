@@ -13,4 +13,5 @@ public class AddBodyMeasurementRequestDto {
     private Float bodyFat;
     private Float height;
     private Date date;
+    private Long idAthlete;
 }

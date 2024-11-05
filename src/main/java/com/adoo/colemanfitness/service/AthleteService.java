@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class AthleteService {
@@ -33,6 +35,29 @@ public class AthleteService {
            return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
        }
     }
+    public ResponseEntity<Object> getAthletes(){
+        try {
+            List<Athlete> athletes = athleteJpaRepository.findAll();
+            return new ResponseEntity<>(athletes,HttpStatus.OK);
+        }catch (Exception e){
+            DefaultResponseDto response = new DefaultResponseDto();
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    public ResponseEntity<Object> getAthleteId(Long id){
+        try {
+            Athlete athlete = athleteJpaRepository.findById(id).orElseThrow(() -> new RuntimeException("Atleta no encontrado"));
+            return new ResponseEntity<>(athlete,HttpStatus.OK);
+        }catch (Exception e){
+            DefaultResponseDto response = new DefaultResponseDto();
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 
 

@@ -17,4 +17,12 @@ public abstract class Trophy {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "athlete_id")
     private Athlete athlete;
+
+
+
+    public abstract Boolean verifyTrophy(Athlete athlete);
+
+    //    public abstract Boolean verifyTrophy(Athlete athlete);
+
+
 }
