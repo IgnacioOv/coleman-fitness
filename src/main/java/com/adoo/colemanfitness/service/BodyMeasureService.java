@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class BodyMeasureService {
     BodyMeasureJpaRepository bodyMeasureJpaRepository;
     AthleteJpaRepository athleteJpaRepository;
+    private TrophyService trophyService;
     public String printMessage() {
         return "wasssaaaaaaaaa";
     }
@@ -29,12 +30,13 @@ public class BodyMeasureService {
             bodyMeasurement.setHeight(request.getHeight());
             Athlete athlete = athleteJpaRepository.findById(request.getIdAthlete()).orElseThrow();
             bodyMeasurement.setAthlete(athlete);
-            //bodyMeasureJpaRepository.save(bodyMeasurement);
-            //DefaultResponseDto response = new DefaultResponseDto();
-            //response.setCode(HttpStatus.OK);
-            //response.setMessage("Medidas guardadas exitosamente");
-            //return new ResponseEntity<>(response,HttpStatus.OK);
-            return new ResponseEntity<>(bodyMeasurement, HttpStatus.OK);
+            bodyMeasureJpaRepository.save(bodyMeasurement);
+            DefaultResponseDto response = new DefaultResponseDto();
+            response.setCode(HttpStatus.OK);
+            response.setMessage("Medidas guardadas exitosamente");
+            Long athleteId = request.getIdAthlete();
+            trophyService.verify("vanity", athleteId);
+            return new ResponseEntity<>(response,HttpStatus.OK);
         }
         catch (Exception e){
             DefaultResponseDto response = new DefaultResponseDto();
