@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @AllArgsConstructor
@@ -18,6 +20,7 @@ public class TrophyService {
 
     TrophyJpaRepository trophyJpaRepository;
     AthleteJpaRepository athleteJpaRepository;
+
 
     private Trophy determineTrophy(String trophyType) {
         return switch (trophyType) {
@@ -27,12 +30,25 @@ public class TrophyService {
             default -> throw new IllegalArgumentException("Trofeo no valido");
         };
     }
+    public void verify(String trophyType, Long athleteId){
+        try{
+            Trophy createTrophy = determineTrophy(trophyType);
+            System.out.println(athleteId);
+            Athlete athlete = athleteJpaRepository.findById(athleteId).orElseThrow(() ->
+                    new IllegalArgumentException("Atleta no encontrado para ID: " + athleteId)
+            );
+            Boolean verifyAddTrophy = createTrophy.verifyTrophy(athlete);
+            if (verifyAddTrophy){
+                addTrophy(athlete, createTrophy);
+            }
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
 
-
-    public ResponseEntity<Object> addTrophy(AddTrophyRequestDto request) {
+    }
+    public ResponseEntity<Object> addTrophy(Athlete athlete, Trophy trophy) {
         try {
-            Trophy trophy = determineTrophy(request.getTrophyType());
-            Athlete athlete = athleteJpaRepository.findById(request.getUserId()).orElseThrow();
             trophy.setAthlete(athlete);
             trophyJpaRepository.save(trophy);
             DefaultResponseDto response = new DefaultResponseDto();

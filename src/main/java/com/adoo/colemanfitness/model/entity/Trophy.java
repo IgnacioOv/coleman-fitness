@@ -18,5 +18,8 @@ public abstract class Trophy {
     @JoinColumn(name = "athlete_id")
     private Athlete athlete;
 
+    public abstract Boolean verifyTrophy(Athlete athlete);
+
+    //    public abstract Boolean verifyTrophy(Athlete athlete);
 
 }
