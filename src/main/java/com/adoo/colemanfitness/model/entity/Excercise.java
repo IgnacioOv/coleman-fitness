@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -21,8 +22,18 @@ public class Excercise implements Serializable {
     private Float aerobicLevel;
     private String video;
 
-    @OneToMany(mappedBy = "excercise", cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<TrainingExcercise> trainingExcercises;
+    @OneToMany(mappedBy = "excercise", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TrainingExcercise> trainingExcercises = new ArrayList<>();
 
 
+    public void addTrainingExcercise(TrainingExcercise trainingExcercise) {
+        trainingExcercises.add(trainingExcercise);
+        trainingExcercise.setExcercise(this);
+    }
+
+
+    public void removeTrainingExcercise(TrainingExcercise trainingExcercise) {
+        trainingExcercises.remove(trainingExcercise);
+        trainingExcercise.setExcercise(null);
+    }
 }
