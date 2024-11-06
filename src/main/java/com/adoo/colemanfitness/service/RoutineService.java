@@ -4,12 +4,14 @@ import com.adoo.colemanfitness.model.dto.AddRoutineRequestDto;
 import com.adoo.colemanfitness.model.dto.DefaultResponseDto;
 import com.adoo.colemanfitness.model.entity.Objective;
 import com.adoo.colemanfitness.model.entity.Routine;
+import com.adoo.colemanfitness.model.entity.Training;
 import com.adoo.colemanfitness.repository.ObjectiveJpaRepository;
 import com.adoo.colemanfitness.repository.RoutineJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,9 +36,10 @@ public class RoutineService {
                 .orElse(null);
     }
 
-    public DefaultResponseDto createRoutine(AddRoutineRequestDto routineDto) {
+    public DefaultResponseDto createRoutine(AddRoutineRequestDto routineDto) { //generar
         Routine routine = convertToEntity(routineDto);
         routineRepository.save(routine);
+        //routine.setTrainingList();
         return new DefaultResponseDto("Routine created successfully", HttpStatus.CREATED);
     }
 
@@ -75,4 +78,6 @@ public class RoutineService {
         }
         return routine;
     }
+
+
 }

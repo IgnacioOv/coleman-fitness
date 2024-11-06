@@ -33,7 +33,6 @@ public class TrophyService {
     public void verify(String trophyType, Long athleteId){
         try{
             Trophy createTrophy = determineTrophy(trophyType);
-            System.out.println(athleteId);
             Athlete athlete = athleteJpaRepository.findById(athleteId).orElseThrow(() ->
                     new IllegalArgumentException("Atleta no encontrado para ID: " + athleteId)
             );

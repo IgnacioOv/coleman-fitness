@@ -104,4 +104,17 @@ public class TrainingService {
 
         return training;
     }
+
+    private void generateExcercise(String objectiveType){
+        switch (objectiveType){
+            case "GordoAflojaLosPostres"->{
+                Integer aerobicLevel = 3;
+
+            }
+            case 'TonificarCuerpo'->{
+
+            }
+            case
+        }
+    }
 }
