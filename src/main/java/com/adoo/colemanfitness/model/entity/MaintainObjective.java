@@ -11,4 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @DiscriminatorValue("Maintain")
 public class MaintainObjective extends Objective {
+
+    public void MaintainObjective(){
+        setMinAerobicLevel(2L);
+        setMaxAerobicLevel(4L);
+        setMinTrainTime(45L);
+        setMaxTrainTime(75L);
+    }
 }

@@ -13,6 +13,10 @@ import lombok.NoArgsConstructor;
 @DiscriminatorColumn(name = "objective_type", discriminatorType = DiscriminatorType.STRING)
 @Entity
 public abstract class Objective {
+    private Long minAerobicLevel;
+    private Long maxAerobicLevel;
+    private Long minTrainTime;
+    private Long maxTrainTime;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
