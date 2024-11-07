@@ -1,12 +1,14 @@
 package com.adoo.colemanfitness.service;
 import com.adoo.colemanfitness.model.dto.AddTrainingRequestDto;
 import com.adoo.colemanfitness.model.dto.DefaultResponseDto;
+import com.adoo.colemanfitness.model.dto.RequestTrainingDto;
 import com.adoo.colemanfitness.model.entity.Routine;
 import com.adoo.colemanfitness.model.entity.Training;
 import com.adoo.colemanfitness.model.entity.TrainingExcercise;
 import com.adoo.colemanfitness.repository.RoutineJpaRepository;
 import com.adoo.colemanfitness.repository.TrainingJpaRepository;
 import com.adoo.colemanfitness.repository.TrainingExcerciseJpaRepository;
+import com.adoo.colemanfitness.util.MuscleGroupEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -105,16 +107,17 @@ public class TrainingService {
         return training;
     }
 
-    private void generateExcercise(String objectiveType){
-        switch (objectiveType){
-            case "GordoAflojaLosPostres"->{
-                Integer aerobicLevel = 3;
 
-            }
-            case 'TonificarCuerpo'->{
+    public Training generateTraining(RequestTrainingDto request,Routine routine){
+        //llamo al training_Excercise para que genere los ejercicios con peso y reps
+        Training training = new Training();
+        training.setRoutine(routine);
 
-            }
-            case
-        }
+
     }
+
+
+
+
+
 }
