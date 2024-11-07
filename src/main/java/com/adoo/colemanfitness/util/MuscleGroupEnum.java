@@ -3,9 +3,10 @@ package com.adoo.colemanfitness.util;
 public enum MuscleGroupEnum {
     CHEST,
     BACK,
-    QUAD,
+    QUADS,
     SHOULDER,
     HAMSTRING,
     BICEP,
     TRICEPS
+
 }

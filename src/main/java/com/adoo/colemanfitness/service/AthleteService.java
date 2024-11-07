@@ -2,6 +2,7 @@ package com.adoo.colemanfitness.service;
 
 
 import com.adoo.colemanfitness.model.dto.AddAthleteRequestDto;
+import com.adoo.colemanfitness.model.dto.AddObjectiveRequestDto;
 import com.adoo.colemanfitness.model.dto.DefaultResponseDto;
 import com.adoo.colemanfitness.model.entity.Athlete;
 import com.adoo.colemanfitness.repository.AthleteJpaRepository;
@@ -15,6 +16,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class AthleteService {
+    private final ObjectiveService objectiveService;
     AthleteJpaRepository athleteJpaRepository;
 
     public ResponseEntity<Object> addAthlete(AddAthleteRequestDto request){
@@ -58,6 +60,10 @@ public class AthleteService {
         }
     }
 
+
+    public ResponseEntity<Object> setObjective(AddObjectiveRequestDto request){
+        return objectiveService.generateRoutine(request);
+    }
 
 
 

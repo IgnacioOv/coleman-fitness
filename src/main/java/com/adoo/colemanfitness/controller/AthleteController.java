@@ -2,6 +2,7 @@ package com.adoo.colemanfitness.controller;
 
 
 import com.adoo.colemanfitness.model.dto.AddAthleteRequestDto;
+import com.adoo.colemanfitness.model.dto.AddObjectiveRequestDto;
 import com.adoo.colemanfitness.service.AthleteService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +27,11 @@ public class AthleteController {
     @GetMapping("/getAthlete/{id}")
     public ResponseEntity<Object> getAthlete(@PathVariable Long id){
         return athleteService.getAthleteId(id);
+    }
+
+
+    @PostMapping("/setObjective")
+    public ResponseEntity<Object> setObjective(@RequestBody AddObjectiveRequestDto request){
+        return athleteService.setObjective(request);
     }
 }

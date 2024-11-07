@@ -7,14 +7,12 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @DiscriminatorValue("Maintain")
 public class MaintainObjective extends Objective {
 
-    public void MaintainObjective(){
-        setMinAerobicLevel(2L);
-        setMaxAerobicLevel(4L);
+    public MaintainObjective(){
+        setMinAerobicLevel(2F);
+        setMaxAerobicLevel(4F);
         setMinTrainTime(45L);
         setMaxTrainTime(75L);
     }

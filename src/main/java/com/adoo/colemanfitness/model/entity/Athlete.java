@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Athlete {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +23,14 @@ public class Athlete {
     private String lastname;
     private String dni;
     @OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Trophy> trophyList;
+    @ToString.Exclude
     @OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
     private List<BodyMeasurement> bodyMeasurementList;
-    @OneToOne(mappedBy = "athlete",cascade = CascadeType.ALL)
-    private Objective objective;
+    @OneToMany(mappedBy = "athlete",cascade = CascadeType.ALL,orphanRemoval = true)
+    @ToString.Exclude
+    private List<Objective> objectives;
 
 
 

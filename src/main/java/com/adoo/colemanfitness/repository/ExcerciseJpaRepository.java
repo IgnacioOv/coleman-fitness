@@ -2,9 +2,15 @@ package com.adoo.colemanfitness.repository;
 
 import com.adoo.colemanfitness.model.entity.Excercise;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface ExcerciseJpaRepository extends JpaRepository<Excercise, Long> {
-    // Métodos personalizados de consulta pueden ser añadidos aquí si es necesario
+
+    List<Excercise> findByMuscleGroupAndAerobicLevelBetween(String muscle, Float minAerobicLevel, Float maxAerobicLevel);
+
+
 }

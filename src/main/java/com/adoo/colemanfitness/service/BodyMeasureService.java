@@ -17,9 +17,9 @@ public class BodyMeasureService {
     BodyMeasureJpaRepository bodyMeasureJpaRepository;
     AthleteJpaRepository athleteJpaRepository;
     private TrophyService trophyService;
-    public String printMessage() {
-        return "wasssaaaaaaaaa";
-    }
+
+
+
     public ResponseEntity<Object> addMesurment(AddBodyMeasurementRequestDto request){
         try{
             BodyMeasurement bodyMeasurement = new BodyMeasurement();

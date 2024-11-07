@@ -21,10 +21,6 @@ public class TrainingExcerciseService {
 
 
 
-    public TrainingExcercise generateTrainingExcercise(){
-        // busco en la db segun los parametros solicitados, construyo el training excercise con reps y peso
-
-    }
 
 
 }

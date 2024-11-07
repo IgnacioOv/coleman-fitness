@@ -27,6 +27,10 @@ public class TrainingService {
 
     @Autowired
     private TrainingExcerciseJpaRepository trainingExcerciseRepository;
+    @Autowired
+    private ExcerciseService excerciseService;
+    @Autowired
+    private TrainingExcerciseService trainingExcerciseService;
 
     public List<AddTrainingRequestDto> getAllTrainings() {
         return trainingRepository.findAll().stream()
@@ -108,13 +112,6 @@ public class TrainingService {
     }
 
 
-    public Training generateTraining(RequestTrainingDto request,Routine routine){
-        //llamo al training_Excercise para que genere los ejercicios con peso y reps
-        Training training = new Training();
-        training.setRoutine(routine);
-
-
-    }
 
 
 
