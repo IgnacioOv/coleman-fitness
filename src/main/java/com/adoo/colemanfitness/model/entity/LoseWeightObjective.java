@@ -11,4 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @DiscriminatorValue("Lose_weight")
 public class LoseWeightObjective extends Objective {
+    public void MaintainObjective(){
+        setMinAerobicLevel(3L);
+        setMaxAerobicLevel(10L);
+        setMinTrainTime(60L);
+        setMaxTrainTime(90L);
+    }
 }
