@@ -13,9 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 @NoArgsConstructor
 @DiscriminatorValue("Tone")
 public class ToneObjective extends Objective {
-
-
-
-
-
+    private Long minAerobicLevel = 1L;
+    private Long maxAerobicLevel = 4L;
+    private Long minTrainTime = 120L;
+    private Long maxTrainTime = 150L;
 }
