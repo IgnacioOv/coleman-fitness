@@ -20,7 +20,7 @@ public class BodyMeasureService {
 
 
 
-    public ResponseEntity<Object> addMesurment(AddBodyMeasurementRequestDto request){
+    public ResponseEntity<Object> addMeasurement(AddBodyMeasurementRequestDto request){
         try{
             BodyMeasurement bodyMeasurement = new BodyMeasurement();
             bodyMeasurement.setBodyFat(request.getBodyFat());

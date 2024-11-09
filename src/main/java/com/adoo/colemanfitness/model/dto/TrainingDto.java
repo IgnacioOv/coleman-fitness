@@ -1,7 +1,6 @@
 package com.adoo.colemanfitness.model.dto;
 
 
-import com.adoo.colemanfitness.model.entity.TrainingExcercise;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

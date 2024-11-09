@@ -1,120 +1,64 @@
 package com.adoo.colemanfitness.service;
-import com.adoo.colemanfitness.model.dto.AddTrainingRequestDto;
-import com.adoo.colemanfitness.model.dto.DefaultResponseDto;
-import com.adoo.colemanfitness.model.dto.RequestTrainingDto;
+import com.adoo.colemanfitness.model.dto.*;
+import com.adoo.colemanfitness.model.entity.Objective;
 import com.adoo.colemanfitness.model.entity.Routine;
 import com.adoo.colemanfitness.model.entity.Training;
-import com.adoo.colemanfitness.model.entity.TrainingExcercise;
-import com.adoo.colemanfitness.repository.RoutineJpaRepository;
 import com.adoo.colemanfitness.repository.TrainingJpaRepository;
-import com.adoo.colemanfitness.repository.TrainingExcerciseJpaRepository;
 import com.adoo.colemanfitness.util.MuscleGroupEnum;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class TrainingService {
 
-    @Autowired
-    private TrainingJpaRepository trainingRepository;
 
-    @Autowired
-    private RoutineJpaRepository routineRepository;
-
-    @Autowired
-    private TrainingExcerciseJpaRepository trainingExcerciseRepository;
-    @Autowired
-    private ExcerciseService excerciseService;
-    @Autowired
+    private TrainingJpaRepository trainingJpaRepository;
     private TrainingExcerciseService trainingExcerciseService;
 
-    public List<AddTrainingRequestDto> getAllTrainings() {
-        return trainingRepository.findAll().stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+    private RequestExcerciseDto buildRequestParams(Objective objective) {
+        RequestExcerciseDto requestParams = new RequestExcerciseDto();
+        requestParams.setMinAerobicLevel(objective.getMinAerobicLevel());
+        requestParams.setMaxAerobicLevel(objective.getMaxAerobicLevel());
+        return requestParams;
     }
 
-    public AddTrainingRequestDto getTrainingById(Long id) {
-        return trainingRepository.findById(id)
-                .map(this::convertToDto)
-                .orElse(null);
-    }
 
-    public DefaultResponseDto createTraining(AddTrainingRequestDto trainingDto) {
-        Training training = convertToEntity(trainingDto);
-        trainingRepository.save(training);
-        return new DefaultResponseDto("Training created successfully", HttpStatus.CREATED);
-    }
+    public List<TrainingDto> createTrainingsForRoutine(Objective objective, Routine routine) {
+        List<TrainingDto> trainingList = new ArrayList<>();
+        RequestExcerciseDto requestParams = buildRequestParams(objective);
+        MuscleGroupEnum[] muscleGroups = MuscleGroupEnum.values();
+        int totalTrainings = 12;
 
-    public DefaultResponseDto updateTraining(Long id, AddTrainingRequestDto trainingDto) {
-        Training training = trainingRepository.findById(id).orElse(null);
-        if (training != null) {
-            if (trainingDto.getRoutineId() != null) {
-                Routine routine = routineRepository.findById(trainingDto.getRoutineId()).orElse(null);
-                training.setRoutine(routine);
-            }
-
-            if (trainingDto.getExcerciseIds() != null) {
-                List<TrainingExcercise> excercises = trainingDto.getExcerciseIds().stream()
-                        .map(trainingExcerciseRepository::findById)
-                        .filter(java.util.Optional::isPresent)
-                        .map(java.util.Optional::get)
-                        .collect(Collectors.toList());
-                training.setExcerciseList(excercises);
-            }
-
-            trainingRepository.save(training);
-            return new DefaultResponseDto("Training updated successfully", HttpStatus.OK);
+        for (int i = 0; i < totalTrainings; i++) {
+            MuscleGroupEnum muscleGroup = muscleGroups[i % muscleGroups.length];
+            requestParams.setMuscle(muscleGroup.name());
+            Training training = createAndSaveTraining(routine, muscleGroup, objective.getMinTrainTime());
+            List<ExcerciseDto> excerciseDtos = trainingExcerciseService.assignExercisesToTraining(requestParams, training);
+            trainingList.add(buildTrainingDto(muscleGroup, excerciseDtos));
         }
-        return new DefaultResponseDto("Training not found", HttpStatus.NOT_FOUND);
+
+        return trainingList;
     }
 
-    public DefaultResponseDto deleteTraining(Long id) {
-        if (trainingRepository.existsById(id)) {
-            trainingRepository.deleteById(id);
-            return new DefaultResponseDto("Training deleted successfully", HttpStatus.OK);
-        }
-        return new DefaultResponseDto("Training not found", HttpStatus.NOT_FOUND);
-    }
 
-    private AddTrainingRequestDto convertToDto(Training training) {
-        List<Long> excerciseIds = training.getExcerciseList().stream()
-                .map(TrainingExcercise::getId)
-                .collect(Collectors.toList());
-        return new AddTrainingRequestDto(
-                training.getRoutine() != null ? training.getRoutine().getId() : null,
-                excerciseIds
-        );
-    }
-
-    private Training convertToEntity(AddTrainingRequestDto trainingDto) {
+    private Training createAndSaveTraining(Routine routine, MuscleGroupEnum muscleGroup, Long duration) {
         Training training = new Training();
-
-        if (trainingDto.getRoutineId() != null) {
-            Routine routine = routineRepository.findById(trainingDto.getRoutineId()).orElse(null);
-            training.setRoutine(routine);
-        }
-
-        if (trainingDto.getExcerciseIds() != null) {
-            List<TrainingExcercise> excercises = trainingDto.getExcerciseIds().stream()
-                    .map(trainingExcerciseRepository::findById)
-                    .filter(java.util.Optional::isPresent)
-                    .map(java.util.Optional::get)
-                    .collect(Collectors.toList());
-            training.setExcerciseList(excercises);
-        }
-
-        return training;
+        training.setRoutine(routine);
+        training.setDuration(duration);
+        training.setMuscleGroup(muscleGroup.name());
+        return trainingJpaRepository.save(training);
     }
 
-
-
-
-
+    private TrainingDto buildTrainingDto(MuscleGroupEnum muscleGroup, List<ExcerciseDto> excerciseDtos) {
+        TrainingDto trainingDto = new TrainingDto();
+        trainingDto.setMuscle(muscleGroup.name());
+        trainingDto.setExcerciseList(excerciseDtos);
+        return trainingDto;
+    }
 
 
 }

@@ -1,14 +1,8 @@
 package com.adoo.colemanfitness.controller;
 
 import com.adoo.colemanfitness.model.dto.AddBodyMeasurementRequestDto;
-import com.adoo.colemanfitness.model.dto.DefaultResponseDto;
-import com.adoo.colemanfitness.model.entity.BodyMeasurement;
-import com.adoo.colemanfitness.repository.BodyMeasureJpaRepository;
 import com.adoo.colemanfitness.service.BodyMeasureService;
-import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,12 +17,8 @@ public class BodyMeasurementController {
     public BodyMeasurementController(BodyMeasureService bodyMeasureService) {
         this.bodyMeasureService = bodyMeasureService;
     }
-    @GetMapping("/imprimir")
-    public String imprimir() {
-        return bodyMeasureService.printMessage();
-    }
-    @PostMapping("/addMesurment")
-    public ResponseEntity<Object> addMesurment(@RequestBody AddBodyMeasurementRequestDto request){
-        return bodyMeasureService.addMesurment(request);
+    @PostMapping("/addMeasurement")
+    public ResponseEntity<Object> addMeasurement(@RequestBody AddBodyMeasurementRequestDto request){
+        return bodyMeasureService.addMeasurement(request);
     }
 }

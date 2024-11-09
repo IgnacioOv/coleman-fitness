@@ -1,26 +1,55 @@
 package com.adoo.colemanfitness.service;
 
-import com.adoo.colemanfitness.model.dto.AddTrainingExcerciseRequestDto;
-import com.adoo.colemanfitness.model.dto.DefaultResponseDto;
+import com.adoo.colemanfitness.model.dto.ExcerciseDto;
+import com.adoo.colemanfitness.model.dto.RequestExcerciseDto;
 import com.adoo.colemanfitness.model.entity.Excercise;
 import com.adoo.colemanfitness.model.entity.Training;
 import com.adoo.colemanfitness.model.entity.TrainingExcercise;
-import com.adoo.colemanfitness.repository.ExcerciseJpaRepository;
-import com.adoo.colemanfitness.repository.TrainingJpaRepository;
 import com.adoo.colemanfitness.repository.TrainingExcerciseJpaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class TrainingExcerciseService {
 
+    private TrainingExcerciseJpaRepository trainingExcerciseJpaRepository;
+    private ExcerciseService excerciseService;
 
+    public TrainingExcercise createAndSaveTrainingExcercise(Excercise excercise, Training training) {
+        TrainingExcercise trainingExcercise = new TrainingExcercise();
+        trainingExcercise.setExcercise(excercise);
+        trainingExcercise.setTraining(training);
+        trainingExcercise.setSets(excercise.getSets());
+        trainingExcercise.setReps(excercise.getReps());
+        trainingExcercise.setWeight(excercise.getWeight());
+        return trainingExcerciseJpaRepository.save(trainingExcercise);
+    }
 
+    private ExcerciseDto buildExcerciseDto(TrainingExcercise trainingExcercise) {
+        Excercise excercise = trainingExcercise.getExcercise();
+        ExcerciseDto excerciseDto = new ExcerciseDto();
+        excerciseDto.setName(excercise.getName());
+        excerciseDto.setReps(trainingExcercise.getReps());
+        excerciseDto.setSets(trainingExcercise.getSets());
+        excerciseDto.setWeight(trainingExcercise.getWeight());
+        return excerciseDto;
+    }
 
+    public List<ExcerciseDto> assignExercisesToTraining(RequestExcerciseDto requestParams, Training training) {
+        List<Excercise> exercisesByGroup = excerciseService.getExcerciseByParameters(requestParams);
+        List<ExcerciseDto> excerciseDtos = new ArrayList<>();
+
+        for (Excercise excercise : exercisesByGroup) {
+            TrainingExcercise trainingExcercise = createAndSaveTrainingExcercise(excercise, training);
+            excerciseDtos.add(buildExcerciseDto(trainingExcercise));
+        }
+
+        return excerciseDtos;
+    }
 
 
 }

@@ -22,6 +22,9 @@ public class Excercise implements Serializable {
     private String name;
     private String muscleGroup;
     private Float aerobicLevel;
+    private Long sets;
+    private Long reps;
+    private Float weight;
     private String video;
 
     @OneToMany(mappedBy = "excercise", cascade = CascadeType.ALL, orphanRemoval = true)
