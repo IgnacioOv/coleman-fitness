@@ -2,16 +2,14 @@ package com.adoo.colemanfitness.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.Date;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class AddBodyMeasurementRequestDto {
-    private Float weight;
+@NoArgsConstructor
+public class ObjectiveMeasurementDto {
+    private Long weight;
     private Float muscleMass;
     private Float bodyFat;
-    private Long height;
-    private Date date;
-    private Long idAthlete;
+
 }

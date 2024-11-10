@@ -9,4 +9,7 @@ public class AddAthleteRequestDto {
     private String name;
     private String lastname;
     private String dni;
+    private String email;
+    private String password;
+    private String sex;
 }

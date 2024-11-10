@@ -19,7 +19,7 @@ public class BodyMeasurement {
     private float weight;
     private float muscleMass;
     private float bodyFat;
-    private float height;
+    private Long height;
     private Date date;
     @ManyToOne
     @JoinColumn(name = "athlete_id")

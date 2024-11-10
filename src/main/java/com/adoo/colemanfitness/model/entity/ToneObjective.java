@@ -1,12 +1,9 @@
 package com.adoo.colemanfitness.model.entity;
 
 
+import com.adoo.colemanfitness.model.dto.ObjectiveMeasurementDto;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 @Entity
 @DiscriminatorValue("Tone")
@@ -17,5 +14,13 @@ public class ToneObjective extends Objective {
         setMaxAerobicLevel(4F);
         setMinTrainTime(120L);
         setMaxTrainTime(150L);
+    }
+
+    @Override
+    public void calculateObjectiveMeasurements(BodyMeasurement bodyMeasurement) {
+        ObjectiveMeasurementDto objectiveMeasurementDto = new ObjectiveMeasurementDto();
+        objectiveMeasurementDto.setBodyFat(bodyMeasurement.getWeight() * 0.15F);
+        objectiveMeasurementDto.setMuscleMass(bodyMeasurement.getWeight() * 0.4F);
+
     }
 }

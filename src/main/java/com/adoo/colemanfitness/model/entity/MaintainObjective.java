@@ -16,4 +16,9 @@ public class MaintainObjective extends Objective {
         setMinTrainTime(45L);
         setMaxTrainTime(75L);
     }
+
+    @Override
+    public void calculateObjectiveMeasurements(BodyMeasurement bodyMeasurement) {
+
+    }
 }

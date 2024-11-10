@@ -22,6 +22,9 @@ public class Athlete {
     private String name;
     private String lastname;
     private String dni;
+    private String email;
+    private String password;
+    private String sex;
     @OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Trophy> trophyList;

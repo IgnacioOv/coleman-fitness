@@ -19,6 +19,11 @@ public abstract class Objective {
     private Float maxAerobicLevel;
     private Long minTrainTime;
     private Long maxTrainTime;
+    private String state;
+
+    @Column(name = "objective_type", insertable = false, updatable = false)
+    private String objectiveType;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,6 +38,6 @@ public abstract class Objective {
     private Routine routine;
 
 
-
+    public abstract void calculateObjectiveMeasurements(BodyMeasurement bodyMeasurement);
 
 }

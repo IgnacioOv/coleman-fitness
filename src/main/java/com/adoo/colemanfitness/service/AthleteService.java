@@ -25,6 +25,9 @@ public class AthleteService {
            athlete.setDni(request.getDni());
            athlete.setName(request.getName());
            athlete.setLastname(request.getLastname());
+           athlete.setEmail(request.getEmail());
+           athlete.setSex(request.getSex());
+           athlete.setPassword(request.getPassword());
            athleteJpaRepository.save(athlete);
            DefaultResponseDto response = new DefaultResponseDto();
            response.setCode(HttpStatus.OK);

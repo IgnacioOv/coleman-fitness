@@ -5,9 +5,11 @@ import com.adoo.colemanfitness.model.entity.*;
 import com.adoo.colemanfitness.repository.AthleteJpaRepository;
 import com.adoo.colemanfitness.repository.ObjectiveJpaRepository;
 import lombok.AllArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 @Service
@@ -34,13 +36,6 @@ public class ObjectiveService {
         objectiveJpaRepository.save(objective);
         return routineService.generateRoutine(objective);
     }
-
-
-
-
-
-
-
 
 
 
