@@ -37,7 +37,12 @@ public abstract class Objective {
     @OneToOne(mappedBy = "objective")
     private Routine routine;
 
+    @OneToOne(mappedBy = "objective")
+    private ObjectiveMeasurement objectiveMeasurement;
 
-    public abstract void calculateObjectiveMeasurements(BodyMeasurement bodyMeasurement);
+
+
+    public abstract ObjectiveMeasurement calculateObjectiveMeasurements(BodyMeasurement bodyMeasurement);
+    public abstract void verifyObjectiveState(BodyMeasurement bodyMeasurement);
 
 }

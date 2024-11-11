@@ -18,7 +18,17 @@ public class MaintainObjective extends Objective {
     }
 
     @Override
-    public void calculateObjectiveMeasurements(BodyMeasurement bodyMeasurement) {
+    public ObjectiveMeasurement calculateObjectiveMeasurements(BodyMeasurement bodyMeasurement) {
+        ObjectiveMeasurement objectiveMeasurement = new ObjectiveMeasurement();
+        objectiveMeasurement.setBodyFat(bodyMeasurement.getBodyFat());
+        objectiveMeasurement.setMuscleMass(bodyMeasurement.getMuscleMass());
+        objectiveMeasurement.setWeight(bodyMeasurement.getWeight());
+        this.setObjectiveMeasurement(objectiveMeasurement);
+        return objectiveMeasurement;
+    }
+
+    @Override
+    public void verifyObjectiveState(BodyMeasurement bodyMeasurement) {
 
     }
 }

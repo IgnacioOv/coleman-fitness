@@ -4,6 +4,7 @@ import com.adoo.colemanfitness.model.dto.AddObjectiveRequestDto;
 import com.adoo.colemanfitness.model.entity.*;
 import com.adoo.colemanfitness.repository.AthleteJpaRepository;
 import com.adoo.colemanfitness.repository.ObjectiveJpaRepository;
+import com.adoo.colemanfitness.repository.ObjectiveMeasurementJpaRepository;
 import lombok.AllArgsConstructor;
 import org.apache.catalina.User;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ public class ObjectiveService {
     private RoutineService routineService;
     private AthleteJpaRepository athleteJpaRepository;
     private ObjectiveJpaRepository objectiveJpaRepository;
+    private ObjectiveMeasurementJpaRepository objectiveMeasurementJpaRepository;
 
     private Objective determineObjective(String objectiveType){
         return switch (objectiveType) {
@@ -26,6 +28,16 @@ public class ObjectiveService {
             case "lose_weight" -> new LoseWeightObjective();
             default -> throw new IllegalArgumentException("Objetivo no valido");
         };
+    }
+
+
+    private void calculateObjectiveMeasurement(Objective objective){
+        Athlete athlete = objective.getAthlete();
+        List<BodyMeasurement> measurements = athlete.getBodyMeasurementList();
+        BodyMeasurement measurement =  measurements.get(measurements.size() - 1);
+        ObjectiveMeasurement objectiveMeasurement = objective.calculateObjectiveMeasurements(measurement);
+        objectiveMeasurement.setObjective(objective);
+        objectiveMeasurementJpaRepository.save(objectiveMeasurement);
     }
 
 

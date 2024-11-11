@@ -1,7 +1,6 @@
 package com.adoo.colemanfitness.model.entity;
 
 
-import com.adoo.colemanfitness.model.dto.ObjectiveMeasurementDto;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
@@ -20,11 +19,21 @@ public class LoseWeightObjective extends Objective {
     }
 
     @Override
-    public void calculateObjectiveMeasurements(BodyMeasurement bodyMeasurement) {
+    public ObjectiveMeasurement calculateObjectiveMeasurements(BodyMeasurement bodyMeasurement) {
         Long idealWeight = bodyMeasurement.getHeight() - 100;
-        ObjectiveMeasurementDto objectiveMeasurementDto = new ObjectiveMeasurementDto();
-        objectiveMeasurementDto.setWeight(idealWeight);
-        objectiveMeasurementDto.setBodyFat(null);
-        objectiveMeasurementDto.setMuscleMass(null);
+        ObjectiveMeasurement objectiveMeasurement = new ObjectiveMeasurement();
+        objectiveMeasurement.setWeight(idealWeight);
+        objectiveMeasurement.setBodyFat(bodyMeasurement.getBodyFat());
+        objectiveMeasurement.setMuscleMass(bodyMeasurement.getMuscleMass());
+        return objectiveMeasurement;
+    }
+
+    @Override
+    public void verifyObjectiveState(BodyMeasurement bodyMeasurement) {
+        ObjectiveMeasurement objectiveMeasurement = this.getObjectiveMeasurement();
+        if(bodyMeasurement.getWeight() <= objectiveMeasurement.getWeight()){
+            this.setState("Completed");
+            System.out.println("Objective completed");
+        }
     }
 }

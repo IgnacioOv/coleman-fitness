@@ -17,10 +17,23 @@ public class ToneObjective extends Objective {
     }
 
     @Override
-    public void calculateObjectiveMeasurements(BodyMeasurement bodyMeasurement) {
-        ObjectiveMeasurementDto objectiveMeasurementDto = new ObjectiveMeasurementDto();
-        objectiveMeasurementDto.setBodyFat(bodyMeasurement.getWeight() * 0.15F);
-        objectiveMeasurementDto.setMuscleMass(bodyMeasurement.getWeight() * 0.4F);
-
+    public ObjectiveMeasurement calculateObjectiveMeasurements(BodyMeasurement bodyMeasurement) {
+        ObjectiveMeasurement objectiveMeasurement = new ObjectiveMeasurement();
+        objectiveMeasurement.setBodyFat(bodyMeasurement.getWeight() * 0.15F);
+        objectiveMeasurement.setMuscleMass(bodyMeasurement.getWeight() * 0.4F);
+        objectiveMeasurement.setWeight(bodyMeasurement.getWeight());
+        this.setObjectiveMeasurement(objectiveMeasurement);
+        return objectiveMeasurement;
     }
+
+    @Override
+    public void verifyObjectiveState(BodyMeasurement bodyMeasurement) {
+        ObjectiveMeasurement objectiveMeasurement = this.getObjectiveMeasurement();
+        if(bodyMeasurement.getBodyFat() <= objectiveMeasurement.getBodyFat() && bodyMeasurement.getMuscleMass() >= objectiveMeasurement.getMuscleMass()){
+            this.setState("Completed");
+            System.out.println("Objective completed");
+        }
+    }
+
+
 }
