@@ -36,6 +36,7 @@ public class BodyMeasureService {
             response.setMessage("Medidas guardadas exitosamente");
             Long athleteId = request.getIdAthlete();
             trophyService.verify("vanity", athleteId);
+            trophyService.verify("dedication", athleteId);
             return new ResponseEntity<>(response,HttpStatus.OK);
         }
         catch (Exception e){

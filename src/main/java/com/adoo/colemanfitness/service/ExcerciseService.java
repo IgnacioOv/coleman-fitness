@@ -5,6 +5,8 @@ import com.adoo.colemanfitness.model.entity.Excercise;
 import com.adoo.colemanfitness.model.entity.ExcerciseServiceInterface;
 import com.adoo.colemanfitness.repository.ExcerciseJpaRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +18,8 @@ public class ExcerciseService implements ExcerciseServiceInterface {
     ExcerciseJpaRepository excerciseJpaRepository;
 
     public List<Excercise> getExcerciseByParameters(RequestExcerciseDto request){
-        return excerciseJpaRepository.findByMuscleGroupAndAerobicLevelBetween(request.getMuscle(), request.getMinAerobicLevel(), request.getMaxAerobicLevel());
+        Pageable pageable = PageRequest.of(0,2);
+        return excerciseJpaRepository.findByMuscleGroupAndAerobicLevelBetween(request.getMuscle(), request.getMinAerobicLevel(), request.getMaxAerobicLevel(),pageable);
     }
 
 

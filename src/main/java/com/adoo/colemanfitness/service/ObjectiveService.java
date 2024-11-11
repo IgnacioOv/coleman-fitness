@@ -6,7 +6,6 @@ import com.adoo.colemanfitness.repository.AthleteJpaRepository;
 import com.adoo.colemanfitness.repository.ObjectiveJpaRepository;
 import com.adoo.colemanfitness.repository.ObjectiveMeasurementJpaRepository;
 import lombok.AllArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -46,11 +45,8 @@ public class ObjectiveService {
         Athlete athlete = athleteJpaRepository.findById(request.getAthleteId()).orElseThrow();
         objective.setAthlete(athlete);
         objectiveJpaRepository.save(objective);
+        calculateObjectiveMeasurement(objective);
         return routineService.generateRoutine(objective);
     }
-
-
-
-
 
 }
