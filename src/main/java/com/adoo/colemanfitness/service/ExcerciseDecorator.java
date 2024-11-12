@@ -20,7 +20,6 @@ public class ExcerciseDecorator implements ExcerciseServiceInterface {
     public List<Excercise> getExcerciseByParameters(RequestExcerciseDto request) {
         List<Excercise> result = excerciseService.getExcerciseByParameters(request);
         for (Excercise excercise : result) {
-            // Aumentar los sets y reps en un 10%
             long updatedSets = (long) Math.ceil(excercise.getSets() * 1.2);
             long updatedReps = (long) Math.ceil(excercise.getReps() * 1.2);
 

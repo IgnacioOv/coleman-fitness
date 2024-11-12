@@ -38,5 +38,29 @@ public class RoutineService {
         return buildRoutineResponse(trainingList);
     }
 
+    public ResponseEntity<Object> getRoutine(Long id){
+        try {
+            List<Routine> routine = routineRepository.findTopByObjective_Athlete_IdOrderByIdDesc(id);
+            return new ResponseEntity<>(routine,HttpStatus.OK);
+        }catch (Exception e){
+            DefaultResponseDto response = new DefaultResponseDto();
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity<Object> modifySetsReps(ModifyTrainingDto request){
+        try {
+            ResponseEntity<Object> routine = this.getRoutine(request.getAthleteId());
+            return new ResponseEntity<>(routine,HttpStatus.OK);
+        }catch (Exception e){
+            DefaultResponseDto response = new DefaultResponseDto();
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }

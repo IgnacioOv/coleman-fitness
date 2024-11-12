@@ -6,6 +6,8 @@ import com.adoo.colemanfitness.model.entity.Training;
 import com.adoo.colemanfitness.repository.TrainingJpaRepository;
 import com.adoo.colemanfitness.util.MuscleGroupEnum;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -50,6 +52,7 @@ public class TrainingService {
         training.setRoutine(routine);
         training.setDuration(duration);
         training.setMuscleGroup(muscleGroup.name());
+        training.setAssisted(false);
         return trainingJpaRepository.save(training);
     }
 

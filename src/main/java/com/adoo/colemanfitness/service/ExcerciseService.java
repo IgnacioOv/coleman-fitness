@@ -19,6 +19,4 @@ public class ExcerciseService implements ExcerciseServiceInterface {
         return excerciseJpaRepository.findByMuscleGroupAndAerobicLevelBetween(request.getMuscle(), request.getMinAerobicLevel(), request.getMaxAerobicLevel());
     }
 
-
-
 }
