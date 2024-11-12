@@ -68,6 +68,22 @@ public class AthleteService {
         return objectiveService.generateRoutine(request);
     }
 
+    public ResponseEntity<Object> login(String email, String password) {
+        List<Athlete> athletes = athleteJpaRepository.findAllByEmail(email);
+
+        if (athletes.size() == 1) {
+            Athlete athlete = athletes.get(0);
+            if (athlete.getPassword().equals(password)) {
+                return ResponseEntity.ok("Login successful");
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            }
+        } else if (athletes.size() > 1) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Multiple users found with the same email.");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+    }
 
 
 }
