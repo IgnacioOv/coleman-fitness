@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,7 +54,10 @@ public class RoutineService {
 
     public ResponseEntity<Object> modifySetsReps(ModifyTrainingDto request){
         try {
-            ResponseEntity<Object> routine = this.getRoutine(request.getAthleteId());
+            ResponseEntity<Object> response = this.getRoutine(request.getAthleteId());
+            ArrayList<Routine> routine_raw = (ArrayList<Routine>) response.getBody();
+            Routine routine = routine_raw.get(0);
+            List<Training> trainingList = routine.getTrainingList();
             return new ResponseEntity<>(routine,HttpStatus.OK);
         }catch (Exception e){
             DefaultResponseDto response = new DefaultResponseDto();
