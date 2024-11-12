@@ -26,4 +26,5 @@ public class Training {
     private List<TrainingExcercise> excerciseList;
     private Long duration;
     private String muscleGroup;
+    private Boolean assisted;
 }
