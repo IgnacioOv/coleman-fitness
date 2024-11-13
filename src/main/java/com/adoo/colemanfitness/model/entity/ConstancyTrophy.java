@@ -6,10 +6,18 @@ import jakarta.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("constancy")
-public class ConstancyTrophy extends Trophy{
+public class ConstancyTrophy extends Trophy {
     public Boolean verifyTrophy(Athlete athlete) {
-        System.out.println("Verificación del trofeo Constancy.");
+        // Recorre cada objetivo del atleta, luego cada rutina y entrenamiento para contar los ejercicios asistidos
+        long countAssistedExercises = athlete.getObjectives().stream()
+                .map(Objective::getRoutine)
+                .filter(routine -> routine != null) // Filtra los objetivos que tienen rutina asignada
+                .flatMap(routine -> routine.getTrainingList().stream())
+                .flatMap(training -> training.getExcerciseList().stream())
+                .filter(TrainingExcercise::getAssisted) // Solo cuenta ejercicios asistidos
+                .count();
 
-        return true;
+        // Reemplaza 10 con el número de ejercicios asistidos requeridos para obtener el trofeo
+        return countAssistedExercises >= 10;
     }
 }
