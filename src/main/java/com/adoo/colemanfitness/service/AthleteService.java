@@ -5,6 +5,7 @@ import com.adoo.colemanfitness.model.dto.AddAthleteRequestDto;
 import com.adoo.colemanfitness.model.dto.AddObjectiveRequestDto;
 import com.adoo.colemanfitness.model.dto.DefaultResponseDto;
 import com.adoo.colemanfitness.model.entity.Athlete;
+import com.adoo.colemanfitness.model.entity.Trophy;
 import com.adoo.colemanfitness.repository.AthleteJpaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -68,6 +69,27 @@ public class AthleteService {
         return objectiveService.generateRoutine(request);
     }
 
+    public ResponseEntity<Object> login(String email, String password) {
+        List<Athlete> athletes = athleteJpaRepository.findAllByEmail(email);
 
+        if (athletes.size() == 1) {
+            Athlete athlete = athletes.get(0);
+            if (athlete.getPassword().equals(password)) {
+                return ResponseEntity.ok("Login successful");
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            }
+        } else if (athletes.size() > 1) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Multiple users found with the same email.");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+    }
+
+    public ResponseEntity<List<Trophy>> getAthleteTrophies(Long athleteId) {
+        Athlete athlete = athleteJpaRepository.findById(athleteId)
+                .orElseThrow(() -> new RuntimeException("Atleta no encontrado"));
+        return new ResponseEntity<>(athlete.getTrophyList(), HttpStatus.OK);
+    }
 
 }

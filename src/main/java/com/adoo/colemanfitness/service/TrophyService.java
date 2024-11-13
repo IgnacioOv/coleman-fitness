@@ -48,7 +48,6 @@ public class TrophyService {
     }
     public ResponseEntity<Object> addTrophy(Athlete athlete, Trophy trophy) {
         try {
-
             trophy.setAthlete(athlete);
             trophyJpaRepository.save(trophy);
             DefaultResponseDto response = new DefaultResponseDto();

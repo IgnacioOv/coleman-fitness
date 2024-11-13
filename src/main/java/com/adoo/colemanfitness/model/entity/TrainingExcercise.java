@@ -2,16 +2,14 @@ package com.adoo.colemanfitness.model.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Setter
 public class TrainingExcercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +18,7 @@ public class TrainingExcercise {
     private Long reps;
     private Long sets;
     private Float weight;
+    private Boolean assisted; // Indica si el ejercicio asignado fue asistido
 
     @ManyToOne
     @JoinColumn(name = "excercise_id")

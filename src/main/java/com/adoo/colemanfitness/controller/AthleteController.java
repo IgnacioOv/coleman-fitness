@@ -1,37 +1,50 @@
 package com.adoo.colemanfitness.controller;
 
-
 import com.adoo.colemanfitness.model.dto.AddAthleteRequestDto;
 import com.adoo.colemanfitness.model.dto.AddObjectiveRequestDto;
+import com.adoo.colemanfitness.model.entity.Trophy;
 import com.adoo.colemanfitness.service.AthleteService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("athlete")
 @AllArgsConstructor
 public class AthleteController {
 
-    AthleteService athleteService;
+    private final AthleteService athleteService;
 
     @PostMapping("/add")
-    public ResponseEntity<Object> addAthlete(@RequestBody AddAthleteRequestDto request){
+    public ResponseEntity<Object> addAthlete(@RequestBody AddAthleteRequestDto request) {
         return athleteService.addAthlete(request);
     }
+
     @GetMapping("/getAthletes")
-    public ResponseEntity<Object> getAthlete(){
+    public ResponseEntity<Object> getAthletes() {
         return athleteService.getAthletes();
     }
 
     @GetMapping("/getAthlete/{id}")
-    public ResponseEntity<Object> getAthlete(@PathVariable Long id){
+    public ResponseEntity<Object> getAthlete(@PathVariable Long id) {
         return athleteService.getAthleteId(id);
     }
 
-
     @PostMapping("/setObjective")
-    public ResponseEntity<Object> setObjective(@RequestBody AddObjectiveRequestDto request){
+    public ResponseEntity<Object> setObjective(@RequestBody AddObjectiveRequestDto request) {
         return athleteService.setObjective(request);
+    }
+
+    // Método para iniciar sesión
+    @PostMapping("/login")
+    public ResponseEntity<Object> login(@RequestParam String email, @RequestParam String password) {
+        return athleteService.login(email, password);
+    }
+
+    @GetMapping("/{athleteId}/trophies")
+    public ResponseEntity<List<Trophy>> getAthleteTrophies(@PathVariable Long athleteId) {
+        return athleteService.getAthleteTrophies(athleteId);
     }
 }
