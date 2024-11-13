@@ -15,7 +15,7 @@ public class RoutineController {
     RoutineService routineService;
     @GetMapping("/get/{id}")
     public ResponseEntity<Object> getRoutines(@PathVariable Long id){
-        return routineService.getRoutine(id);
+        return (ResponseEntity<Object>) routineService.getRoutine(id);
     }
 
     @GetMapping("/modifyExercise")
