@@ -3,6 +3,7 @@ package com.adoo.colemanfitness.service;
 import com.adoo.colemanfitness.model.dto.*;
 import com.adoo.colemanfitness.model.entity.*;
 import com.adoo.colemanfitness.repository.RoutineJpaRepository;
+import com.adoo.colemanfitness.repository.TrainingExcerciseJpaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ public class RoutineService {
 
     private RoutineJpaRepository routineRepository;
     private TrainingService trainingService;
+    private TrainingExcerciseJpaRepository trainingExcerciseJpaRepository;
 
     private Routine createAndSaveRoutine(Objective objective) {
         Routine routine = new Routine();
@@ -46,6 +48,26 @@ public class RoutineService {
         RoutineResponseDto response = new RoutineResponseDto();
         response.setTrainingList(trainingList);
         return response;
+    }
+    public RoutineResponseDto reinforceRoutine(Objective objective){
+        Routine routine = objective.getRoutine();
+        List<Training> trainingList = routine.getTrainingList();
+        for(Training training : trainingList){
+            List<TrainingExcercise> excercises = training.getExcerciseList();
+            for (TrainingExcercise exercise : excercises) {
+                if(!exercise.getAssisted()){
+                    long updatedSets = (long) Math.ceil(exercise.getSets() * 1.2);
+                    long updatedReps = (long) Math.ceil(exercise.getReps() * 1.2);
+                    Float updatedWeight = exercise.getWeight() * 1.2F;
+                    exercise.setSets(updatedSets);
+                    exercise.setReps(updatedReps);
+                    exercise.setWeight(updatedWeight);
+                    trainingExcerciseJpaRepository.save(exercise);
+                }
+            }
+        }
+
+        return this.getRoutine(objective);
     }
 
 /*    public ResponseEntity<Object> modifySetsReps(ModifyTrainingDto request){
