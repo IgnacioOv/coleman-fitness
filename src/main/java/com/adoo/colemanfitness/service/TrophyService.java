@@ -1,7 +1,5 @@
 package com.adoo.colemanfitness.service;
 
-
-import com.adoo.colemanfitness.model.dto.AddTrophyRequestDto;
 import com.adoo.colemanfitness.model.dto.DefaultResponseDto;
 import com.adoo.colemanfitness.model.entity.*;
 import com.adoo.colemanfitness.repository.AthleteJpaRepository;
@@ -10,8 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 @Service

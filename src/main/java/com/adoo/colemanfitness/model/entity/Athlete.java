@@ -22,7 +22,7 @@ public class Athlete {
     private String name;
     private String lastname;
     private String dni;
-    @Column(unique = true) // Asegurando que el email sea único
+    @Column(unique = true)
     private String email;
     private String password;
     private String sex;

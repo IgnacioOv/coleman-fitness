@@ -34,7 +34,7 @@ public class ObjectiveService {
     private void calculateObjectiveMeasurement(Objective objective){
         Athlete athlete = objective.getAthlete();
         List<BodyMeasurement> measurements = athlete.getBodyMeasurementList();
-        BodyMeasurement measurement =  measurements.get(measurements.size() - 1);
+        BodyMeasurement measurement =  measurements.get(measurements.size()-1);
         ObjectiveMeasurement objectiveMeasurement = objective.calculateObjectiveMeasurements(measurement);
         objectiveMeasurement.setObjective(objective);
         objectiveMeasurementJpaRepository.save(objectiveMeasurement);
