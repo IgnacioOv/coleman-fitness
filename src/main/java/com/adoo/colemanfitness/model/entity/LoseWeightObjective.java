@@ -29,11 +29,13 @@ public class LoseWeightObjective extends Objective {
     }
 
     @Override
-    public void verifyObjectiveState(BodyMeasurement bodyMeasurement) {
+    public Boolean verifyObjectiveState(BodyMeasurement bodyMeasurement) {
         ObjectiveMeasurement objectiveMeasurement = this.getObjectiveMeasurement();
         if(bodyMeasurement.getWeight() <= objectiveMeasurement.getWeight()){
             this.setState("Completed");
             System.out.println("Objective completed");
+            return true;
         }
+        return false;
     }
 }

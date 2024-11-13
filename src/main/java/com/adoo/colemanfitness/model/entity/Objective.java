@@ -43,6 +43,6 @@ public abstract class Objective {
 
 
     public abstract ObjectiveMeasurement calculateObjectiveMeasurements(BodyMeasurement bodyMeasurement);
-    public abstract void verifyObjectiveState(BodyMeasurement bodyMeasurement);
+    public abstract Boolean verifyObjectiveState(BodyMeasurement bodyMeasurement);
 
 }

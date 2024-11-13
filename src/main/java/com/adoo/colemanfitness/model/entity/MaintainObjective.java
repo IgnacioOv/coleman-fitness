@@ -3,8 +3,6 @@ package com.adoo.colemanfitness.model.entity;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @Entity
 @DiscriminatorValue("Maintain")
@@ -28,7 +26,7 @@ public class MaintainObjective extends Objective {
     }
 
     @Override
-    public void verifyObjectiveState(BodyMeasurement bodyMeasurement) {
-
+    public Boolean verifyObjectiveState(BodyMeasurement bodyMeasurement) {
+        return false;
     }
 }

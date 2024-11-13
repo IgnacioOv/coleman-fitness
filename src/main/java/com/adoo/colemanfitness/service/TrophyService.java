@@ -21,7 +21,6 @@ public class TrophyService {
     TrophyJpaRepository trophyJpaRepository;
     AthleteJpaRepository athleteJpaRepository;
 
-
     private Trophy determineTrophy(String trophyType) {
         return switch (trophyType) {
             case "dedication" -> new DedicationTrophy();
@@ -30,6 +29,7 @@ public class TrophyService {
             default -> throw new IllegalArgumentException("Trofeo no valido");
         };
     }
+
     public void verify(String trophyType, Long athleteId){
         try{
             Trophy createTrophy = determineTrophy(trophyType);

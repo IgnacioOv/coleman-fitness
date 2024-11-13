@@ -1,7 +1,6 @@
 package com.adoo.colemanfitness.model.entity;
 
 
-import com.adoo.colemanfitness.model.dto.ObjectiveMeasurementDto;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
@@ -27,12 +26,14 @@ public class ToneObjective extends Objective {
     }
 
     @Override
-    public void verifyObjectiveState(BodyMeasurement bodyMeasurement) {
+    public Boolean verifyObjectiveState(BodyMeasurement bodyMeasurement) {
         ObjectiveMeasurement objectiveMeasurement = this.getObjectiveMeasurement();
         if(bodyMeasurement.getBodyFat() <= objectiveMeasurement.getBodyFat() && bodyMeasurement.getMuscleMass() >= objectiveMeasurement.getMuscleMass()){
             this.setState("Completed");
             System.out.println("Objective completed");
+            return true;
         }
+        return false;
     }
 
 
