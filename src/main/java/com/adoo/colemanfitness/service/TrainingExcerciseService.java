@@ -47,7 +47,7 @@ public class TrainingExcerciseService {
     private ExcerciseDto buildExcerciseDto(TrainingExcercise trainingExcercise) {
         Excercise excercise = trainingExcercise.getExcercise();
         ExcerciseDto excerciseDto = new ExcerciseDto();
-        excerciseDto.setId(excercise.getId());
+        excerciseDto.setId(trainingExcercise.getId());
         excerciseDto.setName(excercise.getName());
         excerciseDto.setReps(trainingExcercise.getReps());
         excerciseDto.setSets(trainingExcercise.getSets());
