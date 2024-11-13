@@ -71,7 +71,6 @@ public class TrainingExcerciseService {
         return excerciseDtos;
     }
 
-
     public ResponseEntity<Object> trackExcercise(TrackExcerciseDto request){
         try {
             TrainingExcercise trainingExcercise = trainingExcerciseJpaRepository.findById(request.getId()).orElseThrow();
@@ -80,6 +79,7 @@ public class TrainingExcerciseService {
             trainingExcercise.setWeight(request.getWeightUsed());
             trainingExcercise.setAssisted(true);
             trainingExcerciseJpaRepository.save(trainingExcercise);
+
             return new ResponseEntity<>("Ejercicio registrado", HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>("Error al registrar ejercicio", HttpStatus.BAD_REQUEST);

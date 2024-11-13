@@ -17,7 +17,7 @@ public class Routine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "objective_id")
     private Objective objective;
     @OneToMany(mappedBy = "routine")

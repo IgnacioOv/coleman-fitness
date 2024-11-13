@@ -40,13 +40,26 @@ public class RoutineService {
         return buildRoutineResponse(trainingList);
     }
 
-    public RoutineResponseDto getRoutine(Objective objective){
-        Routine routine = objective.getRoutine();
-        List<TrainingDto> trainingList = trainingService.getCurrentTraining(routine);
-        RoutineResponseDto response = new RoutineResponseDto();
-        response.setTrainingList(trainingList);
-        return response;
+    public ResponseEntity<Object> getRoutine(Objective objective){
+
+        List<Routine> routines = objective.getRoutines();
+        Routine routine = routines.get(routines.size()-1);
+
+        if (trainingService.checkIfFinished(routine)){
+            return generateRoutine(objective);
+        }
+        else {
+            List<TrainingDto> trainingList = trainingService.getCurrentTraining(routine);
+            RoutineResponseDto response = new RoutineResponseDto();
+            response.setTrainingList(trainingList);
+            return new ResponseEntity<>(response,HttpStatus.OK);
+        }
+
     }
+
+
+
+
 
 /*    public ResponseEntity<Object> modifySetsReps(ModifyTrainingDto request){
         try {

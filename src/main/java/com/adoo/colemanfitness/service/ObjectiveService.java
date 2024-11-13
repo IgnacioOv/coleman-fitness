@@ -55,8 +55,8 @@ public class ObjectiveService {
         Athlete athlete = athleteJpaRepository.findById(athleteId).orElseThrow();
         List<Objective> objectives = athlete.getObjectives();
         Objective objective = objectives.get(objectives.size()-1);
-        RoutineResponseDto response = routineService.getRoutine(objective);
-        return ResponseEntity.ok(response);
+
+        return routineService.getRoutine(objective);
     }
 
 

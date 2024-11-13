@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,7 +16,7 @@ import lombok.ToString;
 @DiscriminatorColumn(name = "objective_type", discriminatorType = DiscriminatorType.STRING)
 @Entity
 @ToString
-public abstract class Objective {
+public abstract class  Objective {
     private Float minAerobicLevel;
     private Float maxAerobicLevel;
     private Long minTrainTime;
@@ -34,8 +36,8 @@ public abstract class Objective {
     private Athlete athlete;
 
 
-    @OneToOne(mappedBy = "objective")
-    private Routine routine;
+    @OneToMany(mappedBy = "objective")
+    private List<Routine> routines;
 
     @OneToOne(mappedBy = "objective")
     private ObjectiveMeasurement objectiveMeasurement;

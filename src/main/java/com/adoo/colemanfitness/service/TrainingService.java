@@ -21,7 +21,6 @@ import java.util.List;
 public class TrainingService {
 
     private final TrainingJpaRepository trainingJpaRepository;
-    private final TrainingExcerciseJpaRepository trainingExcerciseJpaRepository; // Added here
     private final TrainingExcerciseService trainingExcerciseService;
 
     private RequestExcerciseDto buildRequestParams(Objective objective) {
@@ -94,6 +93,19 @@ public class TrainingService {
         }catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+
+    public Boolean checkIfFinished(Routine routine){
+        List<Training> trainingList = routine.getTrainingList();
+        for (Training training: trainingList){
+            if(!training.getAssisted()){
+                System.out.println("Not finished");
+                return false;
+            }
+        }
+        System.out.println("Finished");
+        return true;
     }
 
 }
