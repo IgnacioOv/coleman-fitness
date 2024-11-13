@@ -17,4 +17,10 @@ public class ObjectiveController {
     public ResponseEntity<Object> assignObjective(@RequestBody AddObjectiveRequestDto request) {
         return objectiveService.generateRoutine(request);
     }
+
+   @GetMapping("/current/{athleteId}")
+    public ResponseEntity<Object> getCurrentObjective(@PathVariable Long athleteId) {
+        return objectiveService.getCurrentRoutine(athleteId);
+    }
+
 }

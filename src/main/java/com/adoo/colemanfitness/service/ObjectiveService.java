@@ -1,6 +1,7 @@
 package com.adoo.colemanfitness.service;
 
 import com.adoo.colemanfitness.model.dto.AddObjectiveRequestDto;
+import com.adoo.colemanfitness.model.dto.RoutineResponseDto;
 import com.adoo.colemanfitness.model.entity.*;
 import com.adoo.colemanfitness.repository.AthleteJpaRepository;
 import com.adoo.colemanfitness.repository.ObjectiveJpaRepository;
@@ -48,5 +49,15 @@ public class ObjectiveService {
         calculateObjectiveMeasurement(objective);
         return routineService.generateRoutine(objective);
     }
+
+
+    public ResponseEntity<Object> getCurrentRoutine(Long athleteId){
+        Athlete athlete = athleteJpaRepository.findById(athleteId).orElseThrow();
+        List<Objective> objectives = athlete.getObjectives();
+        Objective objective = objectives.get(objectives.size()-1);
+        RoutineResponseDto response = routineService.getRoutine(objective);
+        return ResponseEntity.ok(response);
+    }
+
 
 }

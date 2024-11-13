@@ -40,21 +40,17 @@ public class RoutineService {
         return buildRoutineResponse(trainingList);
     }
 
-    public ResponseEntity<Object> getRoutine(Long id){
-        try {
-            List<Routine> routine = routineRepository.findTopByObjective_Athlete_IdOrderByIdDesc(id);
-            return new ResponseEntity<>(routine,HttpStatus.OK);
-        }catch (Exception e){
-            DefaultResponseDto response = new DefaultResponseDto();
-            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
-            response.setMessage(e.getMessage());
-            return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public RoutineResponseDto getRoutine(Objective objective){
+        Routine routine = objective.getRoutine();
+        List<TrainingDto> trainingList = trainingService.getCurrentTraining(routine);
+        RoutineResponseDto response = new RoutineResponseDto();
+        response.setTrainingList(trainingList);
+        return response;
     }
 
-    public ResponseEntity<Object> modifySetsReps(ModifyTrainingDto request){
+/*    public ResponseEntity<Object> modifySetsReps(ModifyTrainingDto request){
         try {
-            ResponseEntity<Object> response = this.getRoutine(request.getAthleteId());
+            ResponseEntity<Object> response = this.getRoutine(Objective );
             ArrayList<Routine> routine_raw = (ArrayList<Routine>) response.getBody();
             Routine routine = routine_raw.get(0);
             List<Training> trainingList = routine.getTrainingList();
@@ -65,7 +61,7 @@ public class RoutineService {
             response.setMessage(e.getMessage());
             return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
+    }*/
 
 
 }

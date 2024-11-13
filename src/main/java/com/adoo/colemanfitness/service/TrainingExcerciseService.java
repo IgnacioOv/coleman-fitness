@@ -26,16 +26,33 @@ public class TrainingExcerciseService {
         trainingExcercise.setSets(excercise.getSets());
         trainingExcercise.setReps(excercise.getReps());
         trainingExcercise.setWeight(excercise.getWeight());
+        trainingExcercise.setAssisted(false);
         return trainingExcerciseJpaRepository.save(trainingExcercise);
     }
+
+
+    public List<ExcerciseDto> getExcercisesByTraining(Training training) {
+        List<TrainingExcercise> trainingExcercises = training.getExcerciseList();
+        List<ExcerciseDto> excerciseDtos = new ArrayList<>();
+
+        for (TrainingExcercise trainingExcercise : trainingExcercises) {
+            ExcerciseDto excerciseDto = buildExcerciseDto(trainingExcercise);
+            excerciseDtos.add(excerciseDto);
+        }
+
+        return excerciseDtos;
+    }
+
 
     private ExcerciseDto buildExcerciseDto(TrainingExcercise trainingExcercise) {
         Excercise excercise = trainingExcercise.getExcercise();
         ExcerciseDto excerciseDto = new ExcerciseDto();
+        excerciseDto.setId(excercise.getId());
         excerciseDto.setName(excercise.getName());
         excerciseDto.setReps(trainingExcercise.getReps());
         excerciseDto.setSets(trainingExcercise.getSets());
         excerciseDto.setWeight(trainingExcercise.getWeight());
+        excerciseDto.setAssisted(trainingExcercise.getAssisted());
         return excerciseDto;
     }
 

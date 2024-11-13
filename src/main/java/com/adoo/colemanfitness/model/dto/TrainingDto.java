@@ -11,7 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class TrainingDto {
+    private Long trainingId;
     private String muscle;
     private List<ExcerciseDto> excerciseList;
+    private Boolean assisted;
 
 }

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface RoutineJpaRepository extends JpaRepository<Routine, Long> {
-    // Aquí puedes agregar métodos de consulta personalizados si es necesario
+
     List<Routine> findTopByObjective_Athlete_IdOrderByIdDesc(Long athleteId);
 
 }

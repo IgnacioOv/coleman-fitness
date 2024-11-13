@@ -40,9 +40,8 @@ public class TrainingService {
             requestParams.setMuscle(muscleGroup.name());
             Training training = createAndSaveTraining(routine, muscleGroup, objective.getMinTrainTime());
             List<ExcerciseDto> excerciseDtos = trainingExcerciseService.assignExercisesToTraining(requestParams, training);
-            trainingList.add(buildTrainingDto(muscleGroup, excerciseDtos));
+            trainingList.add(buildTrainingDto(training, excerciseDtos));
         }
-
         return trainingList;
     }
 
@@ -55,10 +54,26 @@ public class TrainingService {
         return trainingJpaRepository.save(training);
     }
 
-    private TrainingDto buildTrainingDto(MuscleGroupEnum muscleGroup, List<ExcerciseDto> excerciseDtos) {
+
+    public List<TrainingDto> getCurrentTraining(Routine routine){
+        List<Training> trainingList = routine.getTrainingList();
+        List<TrainingDto> response = new ArrayList<>();
+        for(Training training : trainingList){
+            TrainingDto trainingDto = buildTrainingDto(training, trainingExcerciseService.getExcercisesByTraining(training));
+            List<ExcerciseDto> excerciseDtos = trainingExcerciseService.getExcercisesByTraining(training);
+            trainingDto.setExcerciseList(excerciseDtos);
+            response.add(trainingDto);
+        }
+        return response;
+
+    }
+
+    private TrainingDto buildTrainingDto(Training training, List<ExcerciseDto> excerciseDtos) {
         TrainingDto trainingDto = new TrainingDto();
-        trainingDto.setMuscle(muscleGroup.name());
+        trainingDto.setTrainingId(training.getId());
+        trainingDto.setMuscle(training.getMuscleGroup());
         trainingDto.setExcerciseList(excerciseDtos);
+        trainingDto.setAssisted(training.getAssisted());
         return trainingDto;
     }
 

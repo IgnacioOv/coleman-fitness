@@ -13,13 +13,9 @@ import org.springframework.web.bind.annotation.*;
 public class RoutineController {
 
     RoutineService routineService;
-    @GetMapping("/get/{id}")
-    public ResponseEntity<Object> getRoutines(@PathVariable Long id){
-        return (ResponseEntity<Object>) routineService.getRoutine(id);
-    }
 
-    @GetMapping("/modifyExercise")
+/*    @GetMapping("/modifyExercise")
     public ResponseEntity<Object> modifyExercise(@RequestBody ModifyTrainingDto request){
         return routineService.modifySetsReps(request);
-    }
+    }*/
 }
