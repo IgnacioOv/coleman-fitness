@@ -18,11 +18,10 @@ public abstract class Trophy {
     @JoinColumn(name = "athlete_id")
     private Athlete athlete;
 
+    @Column(name = "trophy_type", insertable = false, updatable = false)
+    private String trophyType;
 
 
     public abstract Boolean verifyTrophy(Athlete athlete);
-
-    //    public abstract Boolean verifyTrophy(Athlete athlete);
-
 
 }

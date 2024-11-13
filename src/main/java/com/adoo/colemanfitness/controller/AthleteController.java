@@ -3,7 +3,7 @@ package com.adoo.colemanfitness.controller;
 import com.adoo.colemanfitness.model.dto.AddAthleteRequestDto;
 import com.adoo.colemanfitness.model.dto.AddObjectiveRequestDto;
 import com.adoo.colemanfitness.model.dto.LoginDto;
-import com.adoo.colemanfitness.model.entity.Trophy;
+import com.adoo.colemanfitness.model.dto.TrophyDto;
 import com.adoo.colemanfitness.service.AthleteService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -38,14 +38,13 @@ public class AthleteController {
         return athleteService.setObjective(request);
     }
 
-    // Método para iniciar sesión
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody LoginDto request) {
         return athleteService.login(request);
     }
 
-    @GetMapping("/{athleteId}/trophies")
-    public ResponseEntity<List<Trophy>> getAthleteTrophies(@PathVariable Long athleteId) {
+    @GetMapping("/trophies/{athleteId}")
+    public ResponseEntity<List<TrophyDto>> getAthleteTrophies(@PathVariable Long athleteId) {
         return athleteService.getAthleteTrophies(athleteId);
     }
 }

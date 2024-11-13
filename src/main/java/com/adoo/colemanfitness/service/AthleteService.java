@@ -1,10 +1,7 @@
 package com.adoo.colemanfitness.service;
 
 
-import com.adoo.colemanfitness.model.dto.AddAthleteRequestDto;
-import com.adoo.colemanfitness.model.dto.AddObjectiveRequestDto;
-import com.adoo.colemanfitness.model.dto.DefaultResponseDto;
-import com.adoo.colemanfitness.model.dto.LoginDto;
+import com.adoo.colemanfitness.model.dto.*;
 import com.adoo.colemanfitness.model.entity.Athlete;
 import com.adoo.colemanfitness.model.entity.Trophy;
 import com.adoo.colemanfitness.repository.AthleteJpaRepository;
@@ -13,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -83,10 +81,14 @@ public class AthleteService {
 
     }
 
-    public ResponseEntity<List<Trophy>> getAthleteTrophies(Long athleteId) {
+    public ResponseEntity<List<TrophyDto>> getAthleteTrophies(Long athleteId) {
         Athlete athlete = athleteJpaRepository.findById(athleteId)
                 .orElseThrow(() -> new RuntimeException("Atleta no encontrado"));
-        return new ResponseEntity<>(athlete.getTrophyList(), HttpStatus.OK);
+        List<TrophyDto> trophyDtoList = new ArrayList<>();
+        for (Trophy trophy : athlete.getTrophyList()) {
+            trophyDtoList.add(new TrophyDto(trophy.getTrophyType()));
+        }
+        return new ResponseEntity<>(trophyDtoList, HttpStatus.OK);
     }
 
 }
