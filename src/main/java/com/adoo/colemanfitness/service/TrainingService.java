@@ -1,13 +1,14 @@
 package com.adoo.colemanfitness.service;
+
 import com.adoo.colemanfitness.model.dto.*;
 import com.adoo.colemanfitness.model.entity.Objective;
 import com.adoo.colemanfitness.model.entity.Routine;
 import com.adoo.colemanfitness.model.entity.Training;
+import com.adoo.colemanfitness.model.entity.TrainingExcercise;
 import com.adoo.colemanfitness.repository.TrainingJpaRepository;
+import com.adoo.colemanfitness.repository.TrainingExcerciseJpaRepository;
 import com.adoo.colemanfitness.util.MuscleGroupEnum;
 import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,9 +18,9 @@ import java.util.List;
 @AllArgsConstructor
 public class TrainingService {
 
-
-    private TrainingJpaRepository trainingJpaRepository;
-    private TrainingExcerciseService trainingExcerciseService;
+    private final TrainingJpaRepository trainingJpaRepository;
+    private final TrainingExcerciseJpaRepository trainingExcerciseJpaRepository; // Added here
+    private final TrainingExcerciseService trainingExcerciseService;
 
     private RequestExcerciseDto buildRequestParams(Objective objective) {
         RequestExcerciseDto requestParams = new RequestExcerciseDto();
@@ -27,7 +28,6 @@ public class TrainingService {
         requestParams.setMaxAerobicLevel(objective.getMaxAerobicLevel());
         return requestParams;
     }
-
 
     public List<TrainingDto> createTrainingsForRoutine(Objective objective, Routine routine) {
         List<TrainingDto> trainingList = new ArrayList<>();
@@ -46,7 +46,6 @@ public class TrainingService {
         return trainingList;
     }
 
-
     private Training createAndSaveTraining(Routine routine, MuscleGroupEnum muscleGroup, Long duration) {
         Training training = new Training();
         training.setRoutine(routine);
@@ -63,5 +62,20 @@ public class TrainingService {
         return trainingDto;
     }
 
+    public void trackExercise(Long trainingId, Long exerciseId, Long sets, Long reps, Float weight, Boolean assisted) {
+        Training training = trainingJpaRepository.findById(trainingId)
+                .orElseThrow(() -> new RuntimeException("Entrenamiento no encontrado"));
+
+        for (TrainingExcercise trainingExcercise : training.getExcerciseList()) {
+            if (trainingExcercise.getExcercise().getId().equals(exerciseId)) {
+                trainingExcercise.setSets(sets);
+                trainingExcercise.setReps(reps);
+                trainingExcercise.setWeight(weight);
+                trainingExcercise.setAssisted(assisted); // Marca si el ejercicio asignado fue asistido
+                trainingExcerciseJpaRepository.save(trainingExcercise);
+                break;
+            }
+        }
+    }
 
 }

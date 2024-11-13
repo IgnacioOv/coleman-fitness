@@ -2,10 +2,13 @@ package com.adoo.colemanfitness.controller;
 
 import com.adoo.colemanfitness.model.dto.AddAthleteRequestDto;
 import com.adoo.colemanfitness.model.dto.AddObjectiveRequestDto;
+import com.adoo.colemanfitness.model.entity.Trophy;
 import com.adoo.colemanfitness.service.AthleteService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("athlete")
@@ -38,5 +41,10 @@ public class AthleteController {
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestParam String email, @RequestParam String password) {
         return athleteService.login(email, password);
+    }
+
+    @GetMapping("/{athleteId}/trophies")
+    public ResponseEntity<List<Trophy>> getAthleteTrophies(@PathVariable Long athleteId) {
+        return athleteService.getAthleteTrophies(athleteId);
     }
 }

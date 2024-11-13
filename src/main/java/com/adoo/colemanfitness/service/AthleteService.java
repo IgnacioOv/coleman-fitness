@@ -5,6 +5,7 @@ import com.adoo.colemanfitness.model.dto.AddAthleteRequestDto;
 import com.adoo.colemanfitness.model.dto.AddObjectiveRequestDto;
 import com.adoo.colemanfitness.model.dto.DefaultResponseDto;
 import com.adoo.colemanfitness.model.entity.Athlete;
+import com.adoo.colemanfitness.model.entity.Trophy;
 import com.adoo.colemanfitness.repository.AthleteJpaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -85,5 +86,10 @@ public class AthleteService {
         }
     }
 
+    public ResponseEntity<List<Trophy>> getAthleteTrophies(Long athleteId) {
+        Athlete athlete = athleteJpaRepository.findById(athleteId)
+                .orElseThrow(() -> new RuntimeException("Atleta no encontrado"));
+        return new ResponseEntity<>(athlete.getTrophyList(), HttpStatus.OK);
+    }
 
 }
