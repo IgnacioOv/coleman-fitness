@@ -2,6 +2,7 @@ package com.adoo.colemanfitness.controller;
 
 import com.adoo.colemanfitness.model.dto.AddAthleteRequestDto;
 import com.adoo.colemanfitness.model.dto.AddObjectiveRequestDto;
+import com.adoo.colemanfitness.model.dto.LoginDto;
 import com.adoo.colemanfitness.model.entity.Trophy;
 import com.adoo.colemanfitness.service.AthleteService;
 import lombok.AllArgsConstructor;
@@ -39,8 +40,8 @@ public class AthleteController {
 
     // Método para iniciar sesión
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestParam String email, @RequestParam String password) {
-        return athleteService.login(email, password);
+    public ResponseEntity<Object> login(@RequestBody LoginDto request) {
+        return athleteService.login(request);
     }
 
     @GetMapping("/{athleteId}/trophies")

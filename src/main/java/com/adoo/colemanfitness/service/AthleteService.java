@@ -4,6 +4,7 @@ package com.adoo.colemanfitness.service;
 import com.adoo.colemanfitness.model.dto.AddAthleteRequestDto;
 import com.adoo.colemanfitness.model.dto.AddObjectiveRequestDto;
 import com.adoo.colemanfitness.model.dto.DefaultResponseDto;
+import com.adoo.colemanfitness.model.dto.LoginDto;
 import com.adoo.colemanfitness.model.entity.Athlete;
 import com.adoo.colemanfitness.model.entity.Trophy;
 import com.adoo.colemanfitness.repository.AthleteJpaRepository;
@@ -69,21 +70,17 @@ public class AthleteService {
         return objectiveService.generateRoutine(request);
     }
 
-    public ResponseEntity<Object> login(String email, String password) {
-        List<Athlete> athletes = athleteJpaRepository.findAllByEmail(email);
-
-        if (athletes.size() == 1) {
-            Athlete athlete = athletes.get(0);
-            if (athlete.getPassword().equals(password)) {
-                return ResponseEntity.ok("Login successful");
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-            }
-        } else if (athletes.size() > 1) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Multiple users found with the same email.");
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+    public ResponseEntity<Object> login(LoginDto request) {
+        Athlete athlete = athleteJpaRepository.findByEmail(request.getEmail());
+        if (athlete == null) {
+            return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
         }
+        if (athlete.getPassword().equals(request.getPassword())) {
+            return new ResponseEntity<>("Inicio de sesión exitoso", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Contraseña incorrecta", HttpStatus.UNAUTHORIZED);
+        }
+
     }
 
     public ResponseEntity<List<Trophy>> getAthleteTrophies(Long athleteId) {

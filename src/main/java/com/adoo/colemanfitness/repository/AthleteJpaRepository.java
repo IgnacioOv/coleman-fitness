@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface AthleteJpaRepository extends JpaRepository<Athlete, Long> {
 
-    // Método para encontrar atletas por email
-    List<Athlete> findAllByEmail(String email);
+
+    Athlete findByEmail(String email);
 }
