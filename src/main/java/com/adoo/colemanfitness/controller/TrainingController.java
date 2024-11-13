@@ -14,17 +14,9 @@ public class TrainingController {
         this.trainingService = trainingService;
     }
 
-    @PostMapping("/{trainingId}/track-exercise")
-    public ResponseEntity<Object> trackExercise(
-            @PathVariable Long trainingId,
-            @RequestParam Long exerciseId,
-            @RequestParam Long sets,
-            @RequestParam Long reps,
-            @RequestParam Float weight,
-            @RequestParam Boolean assisted) { // Añadir el parámetro assisted
+    @PostMapping("/start/{trainingId}")
+    public ResponseEntity<Object> startTraining(@PathVariable Long trainingId) {
+        return trainingService.startTraining(trainingId);
 
-        trainingService.trackExercise(trainingId, exerciseId, sets, reps, weight, assisted);
-
-        return ResponseEntity.ok("Ejercicio rastreado exitosamente");
     }
 }

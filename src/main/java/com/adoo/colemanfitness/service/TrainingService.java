@@ -9,6 +9,8 @@ import com.adoo.colemanfitness.repository.TrainingJpaRepository;
 import com.adoo.colemanfitness.repository.TrainingExcerciseJpaRepository;
 import com.adoo.colemanfitness.util.MuscleGroupEnum;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -77,19 +79,20 @@ public class TrainingService {
         return trainingDto;
     }
 
-    public void trackExercise(Long trainingId, Long exerciseId, Long sets, Long reps, Float weight, Boolean assisted) {
-        Training training = trainingJpaRepository.findById(trainingId)
-                .orElseThrow(() -> new RuntimeException("Entrenamiento no encontrado"));
+    public ResponseEntity<Object> startTraining(Long trainingId) {
+        try {
+            Training training = trainingJpaRepository.findById(trainingId)
+                    .orElseThrow(() -> new RuntimeException("Entrenamiento no encontrado"));
+            if (!training.getAssisted()) {
+                training.setAssisted(true);
+                trainingJpaRepository.save(training);
 
-        for (TrainingExcercise trainingExcercise : training.getExcerciseList()) {
-            if (trainingExcercise.getExcercise().getId().equals(exerciseId)) {
-                trainingExcercise.setSets(sets);
-                trainingExcercise.setReps(reps);
-                trainingExcercise.setWeight(weight);
-                trainingExcercise.setAssisted(assisted); // Marca si el ejercicio asignado fue asistido
-                trainingExcerciseJpaRepository.save(trainingExcercise);
-                break;
+            } else {
+                throw new RuntimeException("Entrenamiento ya asistido");
             }
+            return new ResponseEntity<>("Buen entrenamiento!",HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

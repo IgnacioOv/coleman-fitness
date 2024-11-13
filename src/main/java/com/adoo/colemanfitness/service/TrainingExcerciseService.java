@@ -2,11 +2,14 @@ package com.adoo.colemanfitness.service;
 
 import com.adoo.colemanfitness.model.dto.ExcerciseDto;
 import com.adoo.colemanfitness.model.dto.RequestExcerciseDto;
+import com.adoo.colemanfitness.model.dto.TrackExcerciseDto;
 import com.adoo.colemanfitness.model.entity.Excercise;
 import com.adoo.colemanfitness.model.entity.Training;
 import com.adoo.colemanfitness.model.entity.TrainingExcercise;
 import com.adoo.colemanfitness.repository.TrainingExcerciseJpaRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -66,6 +69,22 @@ public class TrainingExcerciseService {
         }
 
         return excerciseDtos;
+    }
+
+
+    public ResponseEntity<Object> trackExcercise(TrackExcerciseDto request){
+        try {
+            TrainingExcercise trainingExcercise = trainingExcerciseJpaRepository.findById(request.getId()).orElseThrow();
+            trainingExcercise.setReps(request.getRepsMade());
+            trainingExcercise.setSets(request.getSetsMade());
+            trainingExcercise.setWeight(request.getWeightUsed());
+            trainingExcercise.setAssisted(true);
+            trainingExcerciseJpaRepository.save(trainingExcercise);
+            return new ResponseEntity<>("Ejercicio registrado", HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("Error al registrar ejercicio", HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 
