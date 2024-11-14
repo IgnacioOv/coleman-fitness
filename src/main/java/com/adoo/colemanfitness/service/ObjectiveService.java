@@ -59,5 +59,13 @@ public class ObjectiveService {
         return routineService.getRoutine(objective);
     }
 
+    public ResponseEntity<Object> reinforceCurrentRoutine(Long athleteId){
+        Athlete athlete = athleteJpaRepository.findById(athleteId).orElseThrow();
+        List<Objective> objectives = athlete.getObjectives();
+        Objective objective = objectives.get(objectives.size()-1);
+        RoutineResponseDto response = routineService.reinforceRoutine(objective);
+        return ResponseEntity.ok(response);
+    }
+
 
 }

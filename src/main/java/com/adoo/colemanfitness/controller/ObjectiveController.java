@@ -23,4 +23,9 @@ public class ObjectiveController {
         return objectiveService.getCurrentRoutine(athleteId);
     }
 
+    @GetMapping("/reinforce/{athleteId}")
+    public ResponseEntity<Object> getCurrentReinforcementObjective(@PathVariable Long athleteId) {
+        return objectiveService.reinforceCurrentRoutine(athleteId);
+    }
+
 }
