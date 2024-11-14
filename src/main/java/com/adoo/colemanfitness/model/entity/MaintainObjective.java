@@ -27,6 +27,7 @@ public class MaintainObjective extends Objective {
 
     @Override
     public Boolean verifyObjectiveState(BodyMeasurement bodyMeasurement) {
-        return false;
+        Long oscillator = 5L;
+        return bodyMeasurement.getWeight() >= (this.getObjectiveMeasurement().getWeight() - oscillator) && bodyMeasurement.getWeight() <= (this.getObjectiveMeasurement().getWeight() + oscillator);
     }
 }

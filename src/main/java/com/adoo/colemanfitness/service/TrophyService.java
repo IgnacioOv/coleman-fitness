@@ -35,6 +35,7 @@ public class TrophyService {
             Boolean verifyAddTrophy = createTrophy.verifyTrophy(athlete);
             if (verifyAddTrophy){
                 addTrophy(athlete, createTrophy);
+                NotificadorService.sendNotificacion("Has obtenido el trofeo " + trophyType + " segui asi!");
             }
         }
         catch (Exception e){

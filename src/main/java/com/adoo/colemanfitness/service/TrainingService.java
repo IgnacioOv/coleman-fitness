@@ -4,9 +4,7 @@ import com.adoo.colemanfitness.model.dto.*;
 import com.adoo.colemanfitness.model.entity.Objective;
 import com.adoo.colemanfitness.model.entity.Routine;
 import com.adoo.colemanfitness.model.entity.Training;
-import com.adoo.colemanfitness.model.entity.TrainingExcercise;
 import com.adoo.colemanfitness.repository.TrainingJpaRepository;
-import com.adoo.colemanfitness.repository.TrainingExcerciseJpaRepository;
 import com.adoo.colemanfitness.util.MuscleGroupEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -100,11 +98,9 @@ public class TrainingService {
         List<Training> trainingList = routine.getTrainingList();
         for (Training training: trainingList){
             if(!training.getAssisted()){
-                System.out.println("Not finished");
                 return false;
             }
         }
-        System.out.println("Finished");
         return true;
     }
 

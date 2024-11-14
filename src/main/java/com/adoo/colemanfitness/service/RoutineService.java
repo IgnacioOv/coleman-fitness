@@ -58,8 +58,9 @@ public class RoutineService {
         }
 
     }
-    public RoutineResponseDto reinforceRoutine(Objective objective){
-        Routine routine = objective.getRoutine();
+    public ResponseEntity<Object> reinforceRoutine(Objective objective){
+        List<Routine> routines = objective.getRoutines();
+        Routine routine = routines.get(routines.size()-1);
         List<Training> trainingList = routine.getTrainingList();
         for(Training training : trainingList){
             List<TrainingExcercise> excercises = training.getExcerciseList();
