@@ -74,7 +74,7 @@ public class AthleteService {
             return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
         }
         if (athlete.getPassword().equals(request.getPassword())) {
-            return new ResponseEntity<>("Inicio de sesión exitoso", HttpStatus.OK);
+            return new ResponseEntity<>("Inicio de sesión exitoso, su id es: " + athlete.getId(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Contraseña incorrecta", HttpStatus.UNAUTHORIZED);
         }
